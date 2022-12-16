@@ -1,0 +1,152 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="card-title">
+            <h2>Menu App</h2>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Makanan / Minuman</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{ 'border border-danger': validasiInput == 'name' }"
+              [(ngModel)]="menu.name"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Harga</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{ 'border border-danger': validasiInput == 'price' }"
+              [(ngModel)]="menu.price"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Qty</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{ 'border border-danger': validasiInput == 'qty' }"
+              [(ngModel)]="menu.qty"
+            />
+          </div>
+          <button class="btn btn-primary mt-3 btn-sm" (click)="addMenu()">
+            Tambah
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="card-title">
+            <h2>Menu List</h2>
+          </div>
+          <table
+            class="table table-hover"
+            *ngIf="menus.length > 0; else emptyMenu"
+          >
+            <thead>
+              <tr>
+                <th>Makanan / Minuman</th>
+                <th>Qty</th>
+                <th>Harga</th>
+                <th>Sub Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of menus; index as i">
+                <td>{{ item.name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.price | currency : "IDR" }}</td>
+                <td>{{ item.subTotal | currency : "IDR" }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="deleteMenu(i)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="3"><Strong>Total Harga</Strong></td>
+                <td>
+                  <strong> {{ totalHarga | currency : "IDR" }}</strong>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="3">
+                  <strong>PPN</strong>
+                </td>
+                <td>
+                  <strong>{{ totalHarga * ppn | currency : "IDR" }}</strong>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="3"><strong>Total Bayar</strong></td>
+                <td>
+                  <strong>{{
+                    totalHarga + totalHarga * ppn | currency : "IDR"
+                  }}</strong>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #emptyMenu>
+            <div class="alert alert-warning mt-4" role="alert">
+              List menu masih kosong!
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="card shadow mt-2" *ngIf="menus.length > 0">
+        <div class="card-body">
+          <div class="card-title">
+            <h2>Bayar</h2>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Nominal</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="nominalBayar"
+              (keypress)="bayar($event)"
+            />
+          </div>
+          <div [ngSwitch]="statusPembayaran">
+            <div
+              class="alert alert-danger mt-3 mb-0"
+              *ngSwitchCase="'gagal'"
+              role="alert"
+            >
+              Maaf nominal bayar tidak cukup!
+            </div>
+            <div
+              class="alert alert-success mt-3 mb-0"
+              *ngSwitchCase="'kembalian'"
+              role="alert"
+            >
+              Terimkasih sudah melakukan pembayaran, kembalian anda
+              {{ kembalian | currency : "IDR" }}
+            </div>
+            <div
+              class="alert alert-success mt-3 mb-0"
+              *ngSwitchCase="'pas'"
+              role="alert"
+            >
+              Terimkasih sudah melakukan pembayaran
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm mt-3" (click)="bayarOnClick()">
+            Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

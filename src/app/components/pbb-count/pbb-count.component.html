@@ -1,0 +1,79 @@
+<div class="container mt-5">
+  <div class="container">
+    <div class="row row align-items-start">
+      <div class="col m-3 p-3">
+        <div class="card">
+          <div class="card-body m-3 p-3">
+            <div class="title">
+              <h1>PBB Kalkulator</h1>
+            </div>
+            <div class="description-porto">
+              <p>Perhitungan Pajak Bumi dan bangunan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col m-3 p-3">
+        <div class="card">
+          <div class="card-body m-3 p-3">
+            <div class="title mb-4">
+              <h2>Form</h2>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"
+                >Luas Tanah</label
+              >
+              <input
+                class="form-control"
+                type="number"
+                [(ngModel)]="luasTanah"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"
+                >Luas Bangunan</label
+              >
+              <input
+                class="form-control"
+                type="number"
+                [(ngModel)]="luasBangunan"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"
+                >NJOP Tanah</label
+              >
+              <input
+                class="form-control"
+                type="number"
+                [(ngModel)]="njopTanah"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"
+                >NJOP Bangunan</label
+              >
+              <input
+                class="form-control"
+                type="number"
+                [(ngModel)]="njopBangunan"
+              />
+            </div>
+            <div class="mt-4">
+              <button
+                type="button"
+                (click)="hitungPbb()"
+                class="btn btn-primary"
+              >
+                Hitung
+              </button>
+            </div>
+            <div class="alert alert-info mt-4" *ngIf="pbb > 0" role="alert">
+              {{ result }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
